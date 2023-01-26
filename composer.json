@@ -1,0 +1,20 @@
+{
+    "name": "sitnikovik/flex-array",
+    "description": "A powerful lightweight tool for representing an array as an object collection for reading and modifying it.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "sitnikovik\\FlexArray\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ilya Sitnikov",
+            "email": "sitnikovik@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-json": "*"
+    }
+}
