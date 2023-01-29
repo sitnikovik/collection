@@ -3,6 +3,7 @@
     "description": "A powerful lightweight tool for representing an array as an object collection for reading and modifying it.",
     "type": "library",
     "license": "MIT",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "sitnikovik\\FlexArray\\": "src"
