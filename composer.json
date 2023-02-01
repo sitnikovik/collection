@@ -2,6 +2,16 @@
     "name": "sitnikovik/flex-array",
     "description": "A powerful lightweight tool for representing an array as an object collection for reading and modifying it.",
     "type": "library",
+    "keywords": [
+        "array",
+        "flex-array",
+        "manipulation",
+        "helpers",
+        "tools",
+        "utils",
+        "utility",
+        "methods"
+    ],
     "license": "MIT",
     "minimum-stability": "stable",
     "autoload": {
