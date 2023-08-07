@@ -92,7 +92,7 @@ $array = new FlexArray($array);
 * [createByLast](#createbylast)
 * [createByIndex](#createbyindex)
 
-# Predicates
+## Predicates
 * [isEmpty](#isEmpty)
 * [keyExists](#keyexists)
 * [hasKeys](#haskeys)
