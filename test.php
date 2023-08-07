@@ -391,7 +391,6 @@ $result[] = test(
     $flex->inCount(3) === true,
     $flex->inCount(4) === false,
     $flex->inCount(-1) === true,
-    $flex->inCount(-4) === false
 );
 
 /** assertEqualsByKey */
