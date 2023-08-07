@@ -16,7 +16,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "sitnikovik\\FlexArray\\": "src"
+            "Sitnikovik\\FlexArray\\": "src"
         }
     },
     "authors": [
@@ -26,7 +26,7 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
+        "php": ">=7.3",
         "ext-json": "*"
     }
 }

@@ -69,11 +69,11 @@ $result[] = test(
     $flex->createBy('persons')->createBy('mike_shepard')->getAllBooleans() === ['isActive' => false]
 );
 
-/** getAllCleaned */
+/** getAllNotEmpty */
 $result[] = test(
-    $flex->getAllCleaned() === $array,
-    $flex->createBy('persons')->createBy('mike_shepard')->getAllCleaned() !== $array['persons']['mike_shepard'],
-    $flex->createBy('persons')->createBy('john_doe')->getAllCleaned() === $array['persons']['john_doe']
+    $flex->getAllNotEmpty() === $array,
+    $flex->createBy('persons')->createBy('mike_shepard')->getAllNotEmpty() !== $array['persons']['mike_shepard'],
+    $flex->createBy('persons')->createBy('john_doe')->getAllNotEmpty() === $array['persons']['john_doe']
 );
 
 /** getFirst */
