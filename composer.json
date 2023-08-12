@@ -19,6 +19,11 @@
             "Sitnikovik\\FlexArray\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Sitnikovik\\Test\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Ilya Sitnikov",
@@ -28,5 +33,8 @@
     "require": {
         "php": ">=7.3",
         "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
     }
 }
