@@ -2,6 +2,7 @@
 
 namespace Sitnikovik\Test;
 
+use Exception;
 use Sitnikovik\FlexArray\FlexArray;
 use PHPUnit\Framework\TestCase;
 
@@ -221,154 +222,472 @@ class FlexArrayTest extends TestCase
         );
     }
 
-    public function testImplode()
+    /**
+     * @return void
+     */
+    public function testImplode(): void
     {
+        $this->assertEquals(
+            "",
+            $this->flexArray->implode(',')
+        );
+
+        $this->assertEquals(
+            "",
+            $this->flexArray->implode(',', true)
+        );
+
+        $this->assertEquals(
+            "name: John Doe,isActive: 1,comment: some description",
+            $this->flexArray
+                ->createBy('persons')
+                ->createByFirst()
+                ->implode(',', true)
+        );
+
+        $this->assertEquals(
+            "name: Mike Shepard,isActive: ",
+            $this->flexArray
+                ->createBy('persons')
+                ->createByLast()
+                ->implode(',', true)
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testInCount(): void
+    {
+        $this->assertTrue($this->flexArray->inCount(1));
+        $this->assertTrue($this->flexArray->inCount(3));
+        $this->assertFalse($this->flexArray->inCount(4));
+        $this->assertTrue($this->flexArray->inCount(-1));
+    }
+
+    /**
+     * @return void
+     */
+    public function testAppend(): void
+    {
+        $this->assertEquals(
+            array_merge([], self::$haystack, ['apple']),
+            $this->flexArray->append('apple')->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testDeleteLast(): void
+    {
+        $_array = self::$haystack;
+        unset($_array['persons']);
+
+        $this->assertEquals(
+            $_array,
+            $this->flexArray->deleteLast()->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetKeys(): void
+    {
+        $this->assertEquals(
+            array_keys(self::$haystack),
+            $this->flexArray->getKeys()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testHasKeys(): void
+    {
+        $this->assertFalse($this->flexArray->hasKeys('fruits', 1));
+
+        $this->assertTrue($this->flexArray->hasKeys('fruits', 'persons'));
+
+        $this->assertFalse($this->flexArray->hasKeys('fruits', 1, 'persons'));
 
     }
 
-    public function testInCount()
+    /**
+     * @return void
+     */
+    public function testGetFirstKey(): void
     {
+        $this->assertEquals(0, $this->flexArray->getFirstKey());
+
+        $this->assertEquals(
+            'john_doe',
+            $this->flexArray->createBy('persons')->getFirstKey()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testDeleteAll(): void
+    {
+        $this->assertEquals([], $this->flexArray->deleteAll()->getAll());
+    }
+
+    /**
+     * @return void
+     */
+    public function testImplodeAll(): void
+    {
+        $this->assertEquals(
+            "0,1,2,3,5,apple,orange,John Doe,bmw,audi,1,some description,Mike Shepard,,",
+            $this->flexArray->implodeAll(',')
+        );
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testToJson(): void
+    {
+        $this->assertEquals(
+            json_encode(self::$haystack, JSON_THROW_ON_ERROR),
+            $this->flexArray->toJson()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetFirst(): void
+    {
+        $this->assertEquals(
+            self::$haystack[0],
+            $this->flexArray->getFirst()
+        );
+
+        $this->assertEquals(
+            self::$haystack['persons']['john_doe'],
+            $this->flexArray->createBy('persons')->getFirst()
+        );
 
     }
 
-    public function testAppend()
+    /**
+     * @return void
+     */
+    public function testKrsort(): void
     {
+        $_array = self::$haystack;
+        krsort($_array);
+
+        $this->assertEquals(
+            $_array,
+            $this->flexArray->krsort()->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testKsort(): void
+    {
+        $_array = self::$haystack;
+        ksort($_array);
+
+        $this->assertEquals(
+            $_array,
+            $this->flexArray->krsort()->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetByIndex(): void
+    {
+        $this->assertEquals(
+            self::$haystack[0],
+            $this->flexArray->getByIndex(0)
+        );
+
+        $this->assertEquals(
+            self::$haystack['persons'],
+            $this->flexArray->getByIndex(2)
+        );
+
+        $this->assertEquals(
+            null,
+            $this->flexArray->getByIndex(7)
+        );
+
+        $this->assertEquals(
+            "apple",
+            $this->flexArray->createBy('fruits')->getByIndex(0)
+        );
+
+        $this->assertEquals(
+            null,
+            $this->flexArray->createBy('fruits')->getByIndex(3)
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetLastKey(): void
+    {
+        $this->assertEquals(
+            "persons",
+            $this->flexArray->getLastKey()
+        );
+
+        $this->assertEquals(
+            "mike_shepard",
+            $this->flexArray->createBy('persons')->getLastKey()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateBy(): void
+    {
+        $_flex = new FlexArray(self::$haystack['persons']);
+
+        $this->assertEquals(
+            $_flex->getAll(),
+            $this->flexArray->createBy('persons')->getAll()
+        );
+
+        $this->assertEquals(
+            [],
+            $this->flexArray->createBy('john_doe')->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetUpTo(): void
+    {
+        $this->assertEquals(
+            self::$haystack,
+            $this->flexArray->getUpTo(2)
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testKeysOf(): void
+    {
+        $this->assertEquals(
+            [],
+            $this->flexArray->keysOf('fruits')
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testDeleteOnFound(): void
+    {
+        $this->assertEquals(
+            self::$haystack,
+            $this->flexArray->deleteOnFound(['apple', 'orange'])->getAll()
+        );
+
+        $this->assertEquals(
+            self::$haystack,
+            $this->flexArray->deleteOnFound('apple')->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testMerge(): void
+    {
+        $array = array_merge(self::$haystack, ['cars' => ['bmw', 'audi']]);
+
+        $this->assertEquals(
+            $array,
+            $this->flexArray->merge([
+                'cars' => ['bmw', 'audi']
+            ])->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAssertEqualsByKey(): void
+    {
+        $this->assertTrue($this->flexArray->assertEqualsByKey('fruits', ['apple', 'orange']));
+
+        $this->assertFalse($this->flexArray->assertEqualsByKey( 0, ['apple', 'orange']));
+
+        $this->assertTrue($this->flexArray->assertEqualsByKey('apple', null));
 
     }
 
-    public function testDeleteLast()
+    /**
+     * @return void
+     */
+    public function testAssertAnyEqualsByKey(): void
     {
+        $this->assertTrue($this->flexArray->assertAnyEqualsByKey('fruits', ['apple'], ['apple', 'orange']));
+
+        $this->assertFalse($this->flexArray->assertAnyEqualsByKey( 'fruits', ['apple'], ['apple', 'oranges']));
+    }
+
+    /**
+     * @return void
+     */
+    public function testBinarySearch(): void
+    {
+        $this->assertNull($this->flexArray->binarySearch(0));
+
+        $this->assertEquals(
+            3,
+            $this->flexArray->createByFirst()->binarySearch(3)
+        );
+
+        $this->assertEquals(
+            4,
+            $this->flexArray->createByFirst()->binarySearch(5)
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testIndexesOf(): void
+    {
+        $this->assertEmpty($this->flexArray->indexesOf('fruits'));
+
+        $this->assertEquals(
+            [1],
+            $this->flexArray->indexesOf('apple', 'orange')
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetAllNotEmpty(): void
+    {
+        $this->assertEquals(
+            self::$haystack,
+            $this->flexArray->getAllNotEmpty()
+        );
+
+        $this->assertNotEquals(
+            self::$haystack['persons']['mike_shepard'],
+            $this->flexArray
+                ->createBy('persons')
+                ->createBy('mike_shepard')
+                ->getAllNotEmpty()
+        );
+
+        $this->assertEquals(
+            self::$haystack['persons']['john_doe'],
+            $this->flexArray
+                ->createBy('persons')
+                ->createBy('john_doe')
+                ->getAllNotEmpty()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testPrepend(): void
+    {
+        $this->assertEquals(
+            array_merge([], ['apple'], self::$haystack),
+            $this->flexArray->prepend('apple')->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testKeyExists(): void
+    {
+        $this->assertTrue($this->flexArray->keyExists('fruits'));
+
+        $this->assertFalse($this->flexArray->keyExists(1));
+
+        $this->assertTrue(
+            $this->flexArray
+                ->createBy('persons')
+                ->createBy('mike_shepard')
+                ->keyExists('comment')
+        );
+
+        $this->assertTrue(
+            $this->flexArray
+                ->createBy('persons')
+                ->createBy('mike_shepard')
+                ->keyExists('isActive')
+        );
 
     }
 
-    public function testGetKeys()
+    /**
+     * @return void
+     */
+    public function testGetAllBut(): void
     {
-
+        $this->assertEquals(
+            array_merge(
+                [],
+                [self::$haystack[0]],
+                ['fruits' => self::$haystack['fruits']]
+            ),
+            $this->flexArray->getAllBut('persons')
+        );
     }
 
-    public function testHasKeys()
+    /**
+     * @return void
+     */
+    public function testSet(): void
     {
+        $this->flexArray->set('fruits', 'apple');
 
+        $this->assertEquals(
+            "apple",
+            $this->flexArray->get('fruits')
+        );
     }
 
-    public function testGetFirstKey()
+    /**
+     * @return void
+     */
+    public function testIsEmpty(): void
     {
+        $this->assertFalse($this->flexArray->isEmpty('fruits'));
 
-    }
+        $this->assertTrue($this->flexArray->isEmpty(1));
 
-    public function testDeleteAll()
-    {
+        $this->assertTrue(
+            $this->flexArray
+                ->createBy('persons')
+                ->createBy('mike_shepard')
+                ->isEmpty('comment')
+        );
 
-    }
-
-    public function testImplodeAll()
-    {
-
-    }
-
-    public function testToJson()
-    {
-
-    }
-
-    public function testGetFirst()
-    {
-
-    }
-
-    public function testKrsort()
-    {
-
-    }
-
-    public function testKsort()
-    {
-
-    }
-
-    public function testGetByIndex()
-    {
-
-    }
-
-    public function testGetLastKey()
-    {
-
-    }
-
-    public function testCreateBy()
-    {
-
-    }
-
-    public function testGetUpTo()
-    {
-
-    }
-
-    public function testKeysOf()
-    {
-
-    }
-
-    public function testDeleteOnFound()
-    {
-
-    }
-
-    public function testMerge()
-    {
-
-    }
-
-    public function testAssertEqualsByKey()
-    {
-
-    }
-
-    public function testAssertAnyEqualsByKey()
-    {
-
-    }
-
-    public function testBinarySearch()
-    {
-
-    }
-
-    public function testIndexesOf()
-    {
-
-    }
-
-    public function testGetAllNotEmpty()
-    {
-
-    }
-
-    public function testPrepend()
-    {
-
-    }
-
-    public function testKeyExists()
-    {
-
-    }
-
-    public function testGetAllBut()
-    {
-
-    }
-
-    public function testSet()
-    {
-
-    }
-
-    public function testIsEmpty()
-    {
-
+        $this->assertTrue(
+            $this->flexArray
+                ->createBy('persons')
+                ->createBy('mike_shepard')
+                ->isEmpty('isActive')
+        );
     }
 
     /**
@@ -381,78 +700,225 @@ class FlexArrayTest extends TestCase
         $this->assertEquals($this->flexArray->get('fruits'), static::$haystack['fruits']);
     }
 
-    public function testClean()
+    /**
+     * @return void
+     */
+    public function testClean(): void
     {
+        $this->assertEquals(
+            self::$haystack,
+            $this->flexArray->clean()->getAll()
+        );
+
+        $this->assertEquals(
+            [0, 1, 2, 3, 5],
+            $this->flexArray->clean()->getAll()
+        );
+
+        $this->assertEquals(
+            ['name' => 'Mike Shepard'],
+            $this->flexArray->createBy('persons')->createBy('mike_shepard')
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testRsort(): void
+    {
+        $array = self::$haystack;
+        rsort($array);
+
+        $this->assertEquals(
+            $array,
+            $this->flexArray->rsort()->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAsort(): void
+    {
+        $array = self::$haystack;
+        asort($array);
+
+        $this->assertEquals(
+            $array,
+            $this->flexArray->asort()->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateByFirst(): void
+    {
+        $flex = new FlexArray(self::$haystack[0]);
+
+        $this->assertEquals(
+            $flex->getAll(),
+            $this->flexArray->createByFirst()->getAll()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testHasAnyValue(): void
+    {
+        $this->assertTrue($this->flexArray->hasAnyValue(['apple', 'orange']));
+
+        $this->assertTrue($this->flexArray->hasAnyValue(['apple', 'orange'], 'persons'));
+
+        $this->assertTrue($this->flexArray->hasAnyValue('0', ['apple', 'orange'], 'persons'));
+
+        $this->assertFalse($this->flexArray->hasAnyValue(['apple', 'oranges'], 'persons'));
 
     }
 
-    public function testRsort()
+    /**
+     * @return void
+     */
+    public function testUnique(): void
     {
+        $array = array_unique(self::$haystack[0]);
 
+        $this->assertEquals(
+            $array,
+            $this->flexArray->createByFirst()->unique()->getAll()
+        );
     }
 
-    public function testAsort()
+    /**
+     * @return void
+     */
+    public function testDelete(): void
     {
+        $array = self::$haystack;
+        unset($array['fruits']);
 
+        $this->assertEquals(
+            $array,
+            $this->flexArray->delete('fruits')->getAll()
+        );
     }
 
-    public function testCreateByFirst()
+    /**
+     * @return void
+     */
+    public function testDeleteByIndex(): void
     {
+        $array = self::$haystack;
+        unset($array[0]);
 
+        $this->assertEquals(
+            $array,
+            $this->flexArray->deleteByIndex(0)->getAll()
+        );
+
+        $this->assertEquals(
+            $array,
+            $this->flexArray->deleteByIndex(123)->getAll()
+        );
     }
 
-    public function testHasAnyValue()
+    /**
+     * @return void
+     */
+    public function testSort(): void
     {
+        $array = self::$haystack;
+        sort($array);
 
+        $this->assertEquals(
+            $array,
+            $this->flexArray->sort()->getAll()
+        );
     }
 
-    public function testUnique()
+    /**
+     * @return void
+     */
+    public function testCreateByLast(): void
     {
+        $flex = new FlexArray(self::$haystack['persons']);
 
+        $this->assertEquals(
+            $flex->getAll(),
+            $this->flexArray->createByFirst()->getAll()
+        );
     }
 
-    public function testDelete()
+    /**
+     * @return void
+     */
+    public function testArsort(): void
     {
+        $array = self::$haystack;
+        arsort($array);
 
+        $this->assertEquals(
+            $array,
+            $this->flexArray->arsort()->getAll()
+        );
     }
 
-    public function testDeleteByIndex()
+    /**
+     * @return void
+     */
+    public function testCreateByIndex(): void
     {
+        $flex = new FlexArray(self::$haystack['fruits']);
 
+        $this->assertEquals(
+            $flex->getAll(),
+            $this->flexArray->createByIndex(1)->getAll()
+        );
     }
 
-    public function testSort()
+    /**
+     * @return void
+     */
+    public function testGetKeyOfIndex(): void
     {
+        $this->assertEquals(
+            0,
+            $this->flexArray->getKeyOfIndex(0)
+        );
 
+        $this->assertEquals(
+            'fruits',
+            $this->flexArray->getKeyOfIndex(1)
+        );
+
+        $this->assertNull($this->flexArray->getKeyOfIndex(23));
     }
 
-    public function testCreateByLast()
+    /**
+     * @return void
+     */
+    public function testDeleteFirst(): void
     {
+        $array = self::$haystack;
+        unset($array[0]);
 
+        $this->assertEquals(
+            $array,
+            $this->flexArray->deleteFirst()->getAll()
+        );
     }
 
-    public function testArsort()
+    /**
+     * @return void
+     */
+    public function testIndexOf(): void
     {
+        $this->assertNull($this->flexArray->indexesOf('fruits'));
 
-    }
-
-    public function testCreateByIndex()
-    {
-
-    }
-
-    public function testGetKeyOfIndex()
-    {
-
-    }
-
-    public function testDeleteFirst()
-    {
-
-    }
-
-    public function testIndexOf()
-    {
-
+        $this->assertEquals(
+            1,
+            $this->flexArray->indexesOf(['apple', 'orange'])
+        );
     }
 }
