@@ -51,6 +51,7 @@ class FlexArrayTest extends TestCase
     public function testHasAnyKey(): void
     {
         $this->assertTrue($this->flexArray->hasAnyKey('fruits', 1));
+
         $this->assertTrue($this->flexArray->hasAnyKey('fruits', 'persons'));
     }
 
@@ -59,7 +60,11 @@ class FlexArrayTest extends TestCase
      */
     public function testIndexOfKey(): void
     {
-        $this->assertEquals(1, $this->flexArray->indexOfKey('fruits'));
+        $this->assertEquals(
+            1,
+            $this->flexArray->indexOfKey('fruits')
+        );
+
         $this->assertNull($this->flexArray->indexOfKey(1));
     }
 
@@ -69,7 +74,9 @@ class FlexArrayTest extends TestCase
     public function testHasValues(): void
     {
         $this->assertTrue($this->flexArray->hasValues(['apple', 'orange']));
+
         $this->assertFalse($this->flexArray->hasValues(['apple', 'orange'],'persons'));
+
         $this->assertFalse($this->flexArray->hasValues('0', ['apple', 'orange'], 'persons'));
     }
 
@@ -78,8 +85,15 @@ class FlexArrayTest extends TestCase
      */
     public function testCount(): void
     {
-        $this->assertEquals(count(self::$haystack), $this->flexArray->count());
-        $this->assertEquals(count(self::$haystack[0]), $this->flexArray->createByFirst()->count());
+        $this->assertEquals(
+            count(self::$haystack),
+            $this->flexArray->count()
+        );
+
+        $this->assertEquals(
+            count(self::$haystack[0]),
+            $this->flexArray->createByFirst()->count()
+        );
     }
 
     /**
@@ -88,7 +102,11 @@ class FlexArrayTest extends TestCase
     public function testGetAllIntegers(): void
     {
         $this->assertEmpty($this->flexArray->getAllIntegers());
-        $this->assertEquals(self::$haystack[0], $this->flexArray->getAllIntegers());
+
+        $this->assertEquals(
+            self::$haystack[0],
+            $this->flexArray->createByFirst()->getAllIntegers()
+        );
     }
 
     /**
@@ -96,8 +114,12 @@ class FlexArrayTest extends TestCase
      */
     public function testFlip(): void
     {
-        $_array = array_flip(self::$haystack['fruits']);
-        $this->assertEquals($_array, $this->flexArray->createBy('fruits')->flip()->getAll());
+        $array = array_flip(self::$haystack['fruits']);
+
+        $this->assertEquals(
+            $array,
+            $this->flexArray->createBy('fruits')->flip()->getAll()
+        );
     }
 
     /**
@@ -105,7 +127,11 @@ class FlexArrayTest extends TestCase
      */
     public function testGetAllStrings(): void
     {
-        $this->assertEquals([], $this->flexArray->getAllStrings());
+        $this->assertEquals(
+            [],
+            $this->flexArray->getAllStrings()
+        );
+
         $this->assertEquals(
             self::$haystack['fruits'],
             $this->flexArray->createBy('fruits')->getAllStrings()
@@ -119,7 +145,10 @@ class FlexArrayTest extends TestCase
      */
     public function testGetAll(): void
     {
-        $this->assertEquals($this->flexArray->getAll(), static::$haystack);
+        $this->assertEquals(
+            static::$haystack,
+            $this->flexArray->getAll()
+        );
     }
 
     /**
@@ -127,7 +156,10 @@ class FlexArrayTest extends TestCase
      */
     public function testImplodeKeys(): void
     {
-        $this->assertEquals("0,fruits,persons", $this->flexArray->implodeKeys(","));
+        $this->assertEquals(
+            "0,fruits,persons",
+            $this->flexArray->implodeKeys(",")
+        );
     }
 
     /**
@@ -135,7 +167,10 @@ class FlexArrayTest extends TestCase
      */
     public function testGetLast(): void
     {
-        $this->assertEquals(self::$haystack["persons"], $this->flexArray->getLast());
+        $this->assertEquals(
+            self::$haystack["persons"],
+            $this->flexArray->getLast()
+        );
     }
 
     /**
@@ -217,7 +252,7 @@ class FlexArrayTest extends TestCase
         $this->assertNull($this->flexArray->keyOf('fruits'));
 
         $this->assertEquals(
-            "true",
+            "fruits",
             $this->flexArray->keyOf(['apple', 'orange'])
         );
     }
@@ -260,8 +295,11 @@ class FlexArrayTest extends TestCase
     public function testInCount(): void
     {
         $this->assertTrue($this->flexArray->inCount(1));
+
         $this->assertTrue($this->flexArray->inCount(3));
+
         $this->assertFalse($this->flexArray->inCount(4));
+        
         $this->assertTrue($this->flexArray->inCount(-1));
     }
 
@@ -281,11 +319,11 @@ class FlexArrayTest extends TestCase
      */
     public function testDeleteLast(): void
     {
-        $_array = self::$haystack;
-        unset($_array['persons']);
+        $array = self::$haystack;
+        unset($array['persons']);
 
         $this->assertEquals(
-            $_array,
+            $array,
             $this->flexArray->deleteLast()->getAll()
         );
     }
@@ -380,11 +418,11 @@ class FlexArrayTest extends TestCase
      */
     public function testKrsort(): void
     {
-        $_array = self::$haystack;
-        krsort($_array);
+        $array = self::$haystack;
+        krsort($array);
 
         $this->assertEquals(
-            $_array,
+            $array,
             $this->flexArray->krsort()->getAll()
         );
     }
@@ -394,11 +432,11 @@ class FlexArrayTest extends TestCase
      */
     public function testKsort(): void
     {
-        $_array = self::$haystack;
-        ksort($_array);
+        $array = self::$haystack;
+        ksort($array);
 
         $this->assertEquals(
-            $_array,
+            $array,
             $this->flexArray->krsort()->getAll()
         );
     }
@@ -495,13 +533,16 @@ class FlexArrayTest extends TestCase
      */
     public function testDeleteOnFound(): void
     {
+        $array = self::$haystack;
+        unset($array['fruits']);
+
         $this->assertEquals(
-            self::$haystack,
+            $array,
             $this->flexArray->deleteOnFound(['apple', 'orange'])->getAll()
         );
 
         $this->assertEquals(
-            self::$haystack,
+            $array,
             $this->flexArray->deleteOnFound('apple')->getAll()
         );
     }
@@ -571,7 +612,7 @@ class FlexArrayTest extends TestCase
 
         $this->assertEquals(
             [1],
-            $this->flexArray->indexesOf('apple', 'orange')
+            $this->flexArray->indexesOf(['apple', 'orange'])
         );
     }
 
@@ -712,12 +753,12 @@ class FlexArrayTest extends TestCase
 
         $this->assertEquals(
             [0, 1, 2, 3, 5],
-            $this->flexArray->clean()->getAll()
+            $this->flexArray->createByFirst()->clean()->getAll()
         );
 
         $this->assertEquals(
             ['name' => 'Mike Shepard'],
-            $this->flexArray->createBy('persons')->createBy('mike_shepard')
+            $this->flexArray->createBy('persons')->createBy('mike_shepard')->clean()->getAll()
         );
     }
 
@@ -846,7 +887,7 @@ class FlexArrayTest extends TestCase
 
         $this->assertEquals(
             $flex->getAll(),
-            $this->flexArray->createByFirst()->getAll()
+            $this->flexArray->createByLast()->getAll()
         );
     }
 
@@ -914,11 +955,11 @@ class FlexArrayTest extends TestCase
      */
     public function testIndexOf(): void
     {
-        $this->assertNull($this->flexArray->indexesOf('fruits'));
+        $this->assertNull($this->flexArray->indexOf('fruits'));
 
         $this->assertEquals(
             1,
-            $this->flexArray->indexesOf(['apple', 'orange'])
+            $this->flexArray->indexOf(['apple', 'orange'])
         );
     }
 }
