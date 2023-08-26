@@ -1,9 +1,8 @@
 <?php
 
-namespace sitnikovik\FlexArray;
+namespace Sitnikovik\FlexArray;
 
 use Exception;
-use RuntimeException;
 
 class FlexArray
 {
@@ -23,10 +22,6 @@ class FlexArray
     }
 
     /**
-     * ############################################# GETTERS ####################################################
-     */
-
-    /**
      * Returns value by `$key`.
      *
      * If value not exists the `$default` returns.
@@ -37,7 +32,7 @@ class FlexArray
      */
     public function get($key, $default = null)
     {
-        return isset($this->haystack[$key]) ? $this->haystack[$key] : $default;
+        return $this->haystack[$key] ?? $default;
     }
 
     /**
@@ -45,7 +40,7 @@ class FlexArray
      *
      * @return array
      */
-    public function getAll()
+    public function getAll(): array
     {
         return $this->haystack;
     }
@@ -55,7 +50,7 @@ class FlexArray
      *
      * @return int[]|string[]
      */
-    public function getKeys()
+    public function getKeys(): array
     {
         return array_keys($this->getAll());
     }
@@ -66,7 +61,7 @@ class FlexArray
      * @param int|string ...$keys
      * @return array
      */
-    public function getAllBut(...$keys)
+    public function getAllBut(...$keys): array
     {
         $haystack = $this->haystack;
         foreach ($keys as $arg) {
@@ -83,11 +78,11 @@ class FlexArray
      *
      * @return array
      */
-    public function getAllIntegers()
+    public function getAllIntegers(): array
     {
         $filtered = [];
         foreach ($this->getAll() as $key => $value) {
-            if (is_integer($value)) {
+            if (is_int($value)) {
                 $filtered[$key] = $value;
             }
         }
@@ -100,7 +95,7 @@ class FlexArray
      *
      * @return array
      */
-    public function getAllStrings()
+    public function getAllStrings(): array
     {
         $filtered = [];
         foreach ($this->getAll() as $key => $value) {
@@ -117,7 +112,7 @@ class FlexArray
      *
      * @return array
      */
-    public function getAllBooleans()
+    public function getAllBooleans(): array
     {
         $filtered = [];
         foreach ($this->getAll() as $key => $value) {
@@ -134,7 +129,7 @@ class FlexArray
      *
      * @return array
      */
-    public function getAllCleaned()
+    public function getAllNotEmpty(): array
     {
         $isEmpty = [];
         foreach ($this->getAll() as $key => $value) {
@@ -163,8 +158,8 @@ class FlexArray
      */
     public function getFirstKey()
     {
-        foreach ($this->haystack as $key => $value) {
-            return $key;
+        if (!empty($this->haystack)) {
+            return array_key_first($this->haystack);
         }
 
         return null;
@@ -233,7 +228,7 @@ class FlexArray
      * @param int $index
      * @return array
      */
-    public function getUpTo($index)
+    public function getUpTo(int $index): array
     {
         $i = 0;
         $haystack = ($index >= 0) ? $this->getAll() : array_reverse($this->getAll());
@@ -261,17 +256,17 @@ class FlexArray
      * @param bool $associative
      * @return string
      */
-    public function implodeAll($separator, $associative = false)
+    public function implodeAll(string $separator, bool $associative = false): string
     {
         $result = [];
         foreach ($this->haystack as $key => $value) {
-            $value = (is_object($value))
-                ? (array)$value
-                : $value;
+            $value = (is_object($value)) ? (array)$value : $value;
 
-            $result[] = (!is_array($value))
-                ? (($associative) ? sprintf('%s: %s', $key, $value) : $value)
-                : self::join($separator, $value, $associative);
+            if (!is_array($value)) {
+                $result[] = (($associative) ? sprintf('%s: %s', $key, $value) : $value);
+            } else {
+                $result[] = self::join($separator, $value, $associative);
+            }
         }
 
         return implode($separator, $result);
@@ -286,7 +281,7 @@ class FlexArray
      * @param bool $associative
      * @return string
      */
-    public function implode($separator, $associative = false)
+    public function implode(string $separator, bool $associative = false): string
     {
         $strings = [];
         foreach ($this->haystack as $key => $value) {
@@ -306,7 +301,7 @@ class FlexArray
      * @param string $separator
      * @return string
      */
-    public function implodeKeys($separator)
+    public function implodeKeys(string $separator): string
     {
         return implode($separator, $this->getKeys());
     }
@@ -316,7 +311,7 @@ class FlexArray
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->haystack);
     }
@@ -344,11 +339,11 @@ class FlexArray
      * @param mixed ...$needles
      * @return array
      */
-    public function keysOf(...$needles)
+    public function keysOf(...$needles): array
     {
         $keys = [];
         foreach ($this->haystack as $key => $value) {
-            if (in_array($value, $needles)) {
+            if (in_array($value, $needles, true)) {
                 $keys[] = $key;
             }
         }
@@ -362,7 +357,7 @@ class FlexArray
      * @param mixed $needle
      * @return int|null
      */
-    public function indexOf($needle)
+    public function indexOf($needle): ?int
     {
         $i = 0;
         foreach ($this->haystack as $value) {
@@ -381,12 +376,12 @@ class FlexArray
      * @param mixed ...$needles
      * @return array
      */
-    public function indexesOf(...$needles)
+    public function indexesOf(...$needles): array
     {
         $i = 0;
         $indexes = [];
         foreach ($this->haystack as $value) {
-            if (in_array($value, $needles)) {
+            if (in_array($value, $needles, true)) {
                 $indexes[] = $i;
             }
             $i++;
@@ -401,7 +396,7 @@ class FlexArray
      * @param int|string $needle
      * @return int|null
      */
-    public function indexOfKey($needle)
+    public function indexOfKey($needle): ?int
     {
         $i = 0;
         foreach ($this->haystack as $key => $value) {
@@ -420,7 +415,7 @@ class FlexArray
      * @param int $index
      * @return int|string|null
      */
-    public function getKeyOfIndex($index)
+    public function getKeyOfIndex(int $index)
     {
         if (!$this->inCount($index)) {
             return null;
@@ -451,7 +446,7 @@ class FlexArray
      * @param int $needle
      * @return int|null
      */
-    public function binarySearch($needle)
+    public function binarySearch(int $needle): ?int
     {
         if (empty($this->haystack)) {
             return null;
@@ -464,7 +459,7 @@ class FlexArray
         $lower = 0;
         $high = $len - 1;
         while ($lower <= $high) {
-            $middle = intval(($lower + $high) / 2);
+            $middle = (int)(($lower + $high) / 2);
             if ($haystack[$middle] > $needle) {
                 $high = $middle - 1;
             } else if ($haystack[$middle] < $needle) {
@@ -482,21 +477,24 @@ class FlexArray
      *
      * Pass `true` in `$associative` to represent in indexed by its keys.
      *
-     * @param $separator
-     * @param $haystack
+     * @param string $separator
+     * @param array $haystack
      * @param bool $associative
      * @return string
      */
-    private static function join($separator, $haystack, $associative = false)
+    private static function join(string $separator, array $haystack, bool $associative = false): string
     {
         $string = [];
         foreach ($haystack as $key => $value) {
             if (!is_scalar($value) && !is_array($value)) {
                 continue;
             }
-            $string[] = (is_scalar($value))
-                ? (($associative) ? sprintf('%s: %s', $key, $value) : $value)
-                : self::join($separator, $value, $associative);
+
+            if (is_scalar($value)) {
+                $string[] = (($associative) ? sprintf('%s: %s', $key, $value) : $value);
+            } else {
+                $string[] = self::join($separator, $value, $associative);
+            }
         }
 
         return implode($separator, $string);
@@ -508,16 +506,11 @@ class FlexArray
      * @return string
      * @throws Exception
      */
-    public function toJson()
+    public function toJson(): string
     {
         $haystack = $this->getAll();
 
-        $json = json_encode($haystack);
-        if ($json === false) {
-            throw new RuntimeException('JSON encoding failed');
-        }
-
-        return $json;
+        return json_encode($haystack, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -526,7 +519,7 @@ class FlexArray
      * @param int|string ...$keys
      * @return array
      */
-    public function touch(...$keys)
+    public function touch(...$keys): array
     {
         $filtered = [];
 
@@ -545,7 +538,7 @@ class FlexArray
      * @param mixed ...$values
      * @return array
      */
-    public function findValues(...$values)
+    public function findValues(...$values): array
     {
         $filtered = [];
         foreach ($values as $value) {
@@ -556,12 +549,8 @@ class FlexArray
             }
         }
 
-        return array_unique($filtered);
+        return $filtered;
     }
-
-    /**
-     * ############################################# SETTERS ####################################################
-     */
 
     /**
      * Sets value by `$key`.
@@ -570,7 +559,7 @@ class FlexArray
      * @param mixed $value
      * @return $this
      */
-    public function set($key, $value)
+    public function set($key, $value): self
     {
         $this->haystack[$key] = $value;
 
@@ -583,7 +572,7 @@ class FlexArray
      * @param mixed $value
      * @return $this
      */
-    public function prepend($value)
+    public function prepend($value): self
     {
         array_unshift($this->haystack, $value);
 
@@ -596,7 +585,7 @@ class FlexArray
      * @param mixed $value
      * @return $this
      */
-    public function append($value)
+    public function append($value): self
     {
         $this->haystack[] = $value;
 
@@ -609,7 +598,7 @@ class FlexArray
      * @param int|string $key
      * @return $this
      */
-    public function delete($key)
+    public function delete($key): self
     {
         unset($this->haystack[$key]);
 
@@ -622,7 +611,7 @@ class FlexArray
      * @param mixed ...$values
      * @return $this
      */
-    public function deleteOnFound(...$values)
+    public function deleteOnFound(...$values): self
     {
         $haystack = $this->getAll();
 
@@ -642,7 +631,7 @@ class FlexArray
      *
      * @return $this
      */
-    public function deleteFirst()
+    public function deleteFirst(): self
     {
         $this->delete($this->getFirstKey());
 
@@ -654,7 +643,7 @@ class FlexArray
      *
      * @return $this
      */
-    public function deleteLast()
+    public function deleteLast(): self
     {
         $this->delete($this->getLastKey());
 
@@ -667,7 +656,7 @@ class FlexArray
      * @param int $index
      * @return $this
      */
-    public function deleteByIndex($index)
+    public function deleteByIndex(int $index): self
     {
         if (!$this->inCount($index)) {
             return $this;
@@ -692,7 +681,7 @@ class FlexArray
      *
      * @return $this
      */
-    public function deleteAll()
+    public function deleteAll(): self
     {
         $this->haystack = [];
 
@@ -700,16 +689,12 @@ class FlexArray
     }
 
     /**
-     * ############################################ MODIFIERS ###################################################
-     */
-
-    /**
      * Flips the haystack.
      *
      * Note that it works on integer or string values. Otherwise, it will be slipped and warning be thrown
      * @return $this
      */
-    public function flip()
+    public function flip(): self
     {
         $this->haystack = array_flip($this->haystack);
 
@@ -722,7 +707,7 @@ class FlexArray
      * @param array $arrays
      * @return $this
      */
-    public function merge(...$arrays)
+    public function merge(...$arrays): self
     {
         $this->haystack = array_merge($this->getAll(), ...$arrays);
 
@@ -737,7 +722,7 @@ class FlexArray
      * @param int $flags
      * @return $this
      */
-    public function unique($flags = SORT_STRING)
+    public function unique(int $flags = SORT_STRING): self
     {
         $this->haystack = array_unique($this->haystack, $flags);
 
@@ -747,10 +732,10 @@ class FlexArray
     /**
      * Sort haystack.
      *
-     * @param $flags
+     * @param int $flags
      * @return $this
      */
-    public function sort($flags = SORT_REGULAR)
+    public function sort(int $flags = SORT_REGULAR): self
     {
         sort($this->haystack, $flags);
 
@@ -760,10 +745,10 @@ class FlexArray
     /**
      * Sort haystack in reverse order.
      *
-     * @param $flags
+     * @param int $flags
      * @return $this
      */
-    public function rsort($flags = SORT_REGULAR)
+    public function rsort(int $flags = SORT_REGULAR): self
     {
         rsort($this->haystack, $flags);
 
@@ -773,10 +758,10 @@ class FlexArray
     /**
      * Sort the haystack by keys.
      *
-     * @param $flags
+     * @param int $flags
      * @return $this
      */
-    public function ksort($flags = SORT_REGULAR)
+    public function ksort(int $flags = SORT_REGULAR): self
     {
         ksort($this->haystack, $flags);
 
@@ -786,10 +771,10 @@ class FlexArray
     /**
      * Sort the haystack by keys in reverse order.
      *
-     * @param $flags
+     * @param int $flags
      * @return $this
      */
-    public function krsort($flags = SORT_REGULAR)
+    public function krsort(int $flags = SORT_REGULAR): self
     {
         krsort($this->haystack, $flags);
 
@@ -799,10 +784,10 @@ class FlexArray
     /**
      * Sort an array and maintain index association.
      *
-     * @param $flags
+     * @param int $flags
      * @return $this
      */
-    public function asort($flags = SORT_REGULAR)
+    public function asort(int $flags = SORT_REGULAR): self
     {
         asort($this->haystack, $flags);
 
@@ -812,10 +797,10 @@ class FlexArray
     /**
      * Sort an array and maintain index association in reverse order.
      *
-     * @param $flags
+     * @param int $flags
      * @return $this
      */
-    public function arsort($flags = SORT_REGULAR)
+    public function arsort(int $flags = SORT_REGULAR): self
     {
         arsort($this->haystack, $flags);
 
@@ -827,7 +812,7 @@ class FlexArray
      *
      * @return $this
      */
-    public function clean()
+    public function clean(): self
     {
         foreach ($this->getAll() as $key => $value) {
             if ($this->isEmpty($key)) {
@@ -839,10 +824,6 @@ class FlexArray
     }
 
     /**
-     * ############################################ FACTORIES ###################################################
-     */
-
-    /**
      * Creates collection by `key` if indexed value in the haystack is array.
      *
      * Otherwise, collection with empty haystack returns.
@@ -850,7 +831,7 @@ class FlexArray
      * @param int|string $key
      * @return $this
      */
-    public function createBy($key)
+    public function createBy($key): self
     {
         $value = (isset($this->haystack[$key]) && is_array($this->haystack[$key]))
             ? $this->haystack[$key]
@@ -864,7 +845,7 @@ class FlexArray
      *
      * @return $this
      */
-    public function createByFirst()
+    public function createByFirst(): self
     {
         $value = $this->getFirst();
 
@@ -876,7 +857,7 @@ class FlexArray
      *
      * @return $this
      */
-    public function createByLast()
+    public function createByLast(): self
     {
         $value = $this->getLast();
 
@@ -889,7 +870,7 @@ class FlexArray
      * @param int $index
      * @return $this
      */
-    public function createByIndex($index)
+    public function createByIndex(int $index): self
     {
         $value = $this->getByIndex($index);
 
@@ -902,14 +883,10 @@ class FlexArray
      * @param mixed $value
      * @return array
      */
-    private function getConstructArgument($value)
+    private static function getConstructArgument($value): array
     {
         return (empty($value) || !is_array($value)) ? [] : $value;
     }
-
-    /**
-     * ############################################ PREDICATES ##################################################
-     */
 
     /**
      * Defines if value by `$key` exists and is not empty
@@ -917,7 +894,7 @@ class FlexArray
      * @param int|string $key
      * @return bool
      */
-    public function isEmpty($key)
+    public function isEmpty($key): bool
     {
         if (!isset($this->haystack[$key])) {
             return true;
@@ -940,7 +917,7 @@ class FlexArray
      * @param int|string $key
      * @return bool
      */
-    public function keyExists($key)
+    public function keyExists($key): bool
     {
         return array_key_exists($key, $this->haystack);
     }
@@ -951,7 +928,7 @@ class FlexArray
      * @param int|string ...$keys
      * @return bool
      */
-    public function hasKeys(...$keys)
+    public function hasKeys(...$keys): bool
     {
         foreach ($keys as $key) {
             if (!$this->keyExists($key)) {
@@ -968,7 +945,7 @@ class FlexArray
      * @param int|string ...$keys
      * @return bool
      */
-    public function hasAnyKey(...$keys)
+    public function hasAnyKey(...$keys): bool
     {
         foreach ($keys as $key) {
             if ($this->keyExists($key)) {
@@ -985,10 +962,10 @@ class FlexArray
      * @param mixed ...$values
      * @return bool
      */
-    public function hasValues(...$values)
+    public function hasValues(...$values): bool
     {
         foreach ($values as $value) {
-            if (!in_array($value, $this->haystack)) {
+            if (!in_array($value, $this->haystack, true)) {
                 return false;
             }
         }
@@ -1002,10 +979,10 @@ class FlexArray
      * @param mixed ...$values
      * @return bool
      */
-    public function hasAnyValue(...$values)
+    public function hasAnyValue(...$values): bool
     {
         foreach ($this->haystack as $value) {
-            if (in_array($value, $values)) {
+            if (in_array($value, $values, true)) {
                 return true;
             }
         }
@@ -1019,9 +996,15 @@ class FlexArray
      * @param $count
      * @return bool
      */
-    public function inCount($count)
+    public function inCount($count): bool
     {
-        return abs($count) <= $this->count();
+        $length = $this->count();
+
+        if ($count < 0) {
+            $count += $length;
+        }
+
+        return $count <= $length;
     }
 
     /**
@@ -1031,7 +1014,7 @@ class FlexArray
      * @param mixed $value
      * @return bool
      */
-    public function assertEqualsByKey($key, $value)
+    public function assertEqualsByKey($key, $value): bool
     {
         return $this->get($key) === $value;
     }
@@ -1043,7 +1026,7 @@ class FlexArray
      * @param mixed ...$values
      * @return bool
      */
-    public function assertAnyEqualsByKey($key, ...$values)
+    public function assertAnyEqualsByKey($key, ...$values): bool
     {
         return in_array($this->get($key), $values, true);
     }
