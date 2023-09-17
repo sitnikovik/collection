@@ -38,13 +38,13 @@ class Stack
     {
         $this->data = $data;
         $this->size = count($data);
-        $this->capacity = $capacity ?? 0;
+        $this->capacity = $capacity ?? count($data) ?: 0;
     }
 
     /**
      * Pushes item to stack top
      *
-     * @param $item
+     * @param mixed $item
      * @return void
      * @throws OverflowException
      */
@@ -111,7 +111,8 @@ class Stack
     }
 
     /**
-     * Returns available stack size left
+     * Returns available stack size left.
+     * If capacity is 0 returns -1
      *
      * @return int
      */
