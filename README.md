@@ -3,7 +3,11 @@ Make your array usage quite easy and fast.
 
 ---
 
-# Get started
+### See also
+
+- [Stack](readme/stack.md)
+
+# FlexArray. Get started.
 You have to provide you array to constructor and after that you can do a lot of operations on haystack via class methods.
 
 ```php

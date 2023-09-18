@@ -1,3 +1,6 @@
 /vendor/
 /.idea/
 /.phpunit.result.cache
+/VERSION
+/.obsidian/
+/readme/.obsidian/
