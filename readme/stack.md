@@ -31,7 +31,7 @@ $stack = new Stack(1, ["foo", "bar"]);
 - [capacity](#capacity)
 - [available](#available)
 - [isEmpty](#isempty)
-- [isFull](#isempty)
+- [isFull](#isfull)
 
 ### push
 
