@@ -112,13 +112,13 @@ class Stack
 
     /**
      * Returns available stack size left.
-     * If capacity is 0 returns -1
+     * If capacity is 0 returns 0
      *
      * @return int
      */
     public function available(): int
     {
-        return ($this->capacity !== 0) ? $this->capacity - $this->size : -1;
+        return ($this->capacity !== 0) ? $this->capacity - $this->size : 0;
     }
 
     /**
@@ -128,7 +128,7 @@ class Stack
      */
     public function isFull(): bool
     {
-        return !($this->capacity === 0) && $this->size === $this->capacity;
+        return $this->capacity !== 0 && $this->size === $this->capacity;
     }
 
     /**
