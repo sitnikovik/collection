@@ -33,12 +33,20 @@ class Stack
     /**
      * @param int $capacity
      * @param array $data
+     * @throws OverflowException
      */
     public function __construct(int $capacity = 0, array $data = [])
     {
         $this->capacity = $capacity;
-        $this->data = $data;
-        $this->size = count($data);
+        $this->size = 0;
+
+        if (!empty($data)) {
+            $this->size = count($data);
+            if ($this->capacity !== 0 && $this->size > $this->capacity) {
+                throw new OverflowException('Data size is bigger than stack capacity');
+            }
+            $this->data = $data;
+        }
     }
 
     /**

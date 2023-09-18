@@ -12,6 +12,17 @@ use PHPUnit\Framework\TestCase;
 class StackTest extends TestCase
 {
     /**
+     * Tests constructor failed on data bigger than capacity.
+     *
+     * @return void
+     */
+    public function testConstructorFailedOnDataBiggerThanCapacity(): void
+    {
+        $this->expectException(OverflowException::class);
+        new Stack(1, ["foo", "bar"]);
+    }
+
+    /**
      * Tests isFull method on no data provided.
      * Should return false cause capacity is 0.
      *
