@@ -3,6 +3,7 @@
 namespace Sitnikovik\FlexArray;
 
 use OverflowException;
+use UnderflowException;
 
 /**
  * Stack implementation
@@ -54,12 +55,12 @@ class Stack
      *
      * @param mixed $item
      * @return void
-     * @throws OverflowException
+     * @throws UnderflowException
      */
     public function push($item): void
     {
         if ($this->isFull()) {
-            throw new OverflowException('Stack is full');
+            throw new UnderflowException('Stack is full');
         }
 
         $this->data[] = $item;
@@ -70,11 +71,12 @@ class Stack
      * Pops item from stack top
      *
      * @return mixed
+     * @throws UnderflowException
      */
     public function pop()
     {
         if ($this->isEmpty()) {
-            throw new OverflowException('Stack is empty');
+            throw new UnderflowException('Stack is empty');
         }
 
         $item = $this->data[$this->size - 1];

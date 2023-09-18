@@ -5,6 +5,7 @@ namespace Sitnikovik\Test;
 use OverflowException;
 use Sitnikovik\FlexArray\Stack;
 use PHPUnit\Framework\TestCase;
+use UnderflowException;
 
 /**
  * @coversDefaultClass \Sitnikovik\FlexArray\Stack
@@ -98,7 +99,7 @@ class StackTest extends TestCase
     {
         $stack = new Stack(1);
 
-        $this->expectException(OverflowException::class);
+        $this->expectException(UnderflowException::class);
         $stack->push("test_1");
         $stack->push("test_2");
     }
@@ -112,7 +113,7 @@ class StackTest extends TestCase
     {
         $stack = new Stack(1, ["test"]);
 
-        $this->expectException(OverflowException::class);
+        $this->expectException(UnderflowException::class);
         $stack->push("test");
     }
 
@@ -156,7 +157,7 @@ class StackTest extends TestCase
     {
         $stack = new Stack();
 
-        $this->expectException(OverflowException::class);
+        $this->expectException(UnderflowException::class);
         $stack->pop();
     }
 
