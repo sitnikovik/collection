@@ -31,14 +31,14 @@ class Stack
     private $data;
 
     /**
+     * @param int $capacity
      * @param array $data
-     * @param int|null $capacity
      */
-    public function __construct(array $data = [], ?int $capacity = null)
+    public function __construct(int $capacity = 0, array $data = [])
     {
+        $this->capacity = $capacity;
         $this->data = $data;
         $this->size = count($data);
-        $this->capacity = $capacity ?? count($data) ?: 0;
     }
 
     /**

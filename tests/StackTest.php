@@ -31,10 +31,10 @@ class StackTest extends TestCase
      */
     public function testIsFullOnDataAndCapacityProvided(): void
     {
-        $stack = new Stack([], 0);
+        $stack = new Stack(0);
         $this->assertFalse($stack->isFull());
 
-        $stack = new Stack([], 1);
+        $stack = new Stack(1);
         $this->assertFalse($stack->isFull());
         $stack->push("test");
         $this->assertTrue($stack->isFull());
@@ -52,7 +52,7 @@ class StackTest extends TestCase
         $stack = new Stack();
         $this->assertEquals(0, $stack->capacity());
 
-        $stack = new Stack([], 1);
+        $stack = new Stack(1);
         $this->assertEquals(1, $stack->capacity());
     }
 
@@ -85,7 +85,7 @@ class StackTest extends TestCase
      */
     public function testPushFailedOnOverflowed(): void
     {
-        $stack = new Stack([], 1);
+        $stack = new Stack(1);
 
         $this->expectException(OverflowException::class);
         $stack->push("test_1");
@@ -99,7 +99,7 @@ class StackTest extends TestCase
      */
     public function testPushFailedOnNotEmptyDataProvided(): void
     {
-        $stack = new Stack(["test"]);
+        $stack = new Stack(1, ["test"]);
 
         $this->expectException(OverflowException::class);
         $stack->push("test");
@@ -132,7 +132,7 @@ class StackTest extends TestCase
      */
     public function testPop(): void
     {
-        $stack = new Stack(["test"]);
+        $stack = new Stack(1, ["test"]);
         $this->assertEquals("test", $stack->pop());
     }
 
@@ -158,7 +158,7 @@ class StackTest extends TestCase
      */
     public function testPeek(): void
     {
-        $stack = new Stack(["test"]);
+        $stack = new Stack(1, ["test"]);
 
         $this->assertEquals("test", $stack->peek());
         $this->assertEquals("test", $stack->peek());
@@ -190,7 +190,7 @@ class StackTest extends TestCase
      */
     public function testIsEmptyOnDataProvided(): void
     {
-        $stack = new Stack(["test"]);
+        $stack = new Stack(1, ["test"]);
         $this->assertFalse($stack->isEmpty());
     }
 
@@ -202,7 +202,7 @@ class StackTest extends TestCase
      */
     public function testIsEmptyOnPopped(): void
     {
-        $stack = new Stack(["test"]);
+        $stack = new Stack(1, ["test"]);
         $stack->pop();
         $this->assertTrue($stack->isEmpty());
     }
@@ -227,7 +227,7 @@ class StackTest extends TestCase
      */
     public function testAvailableOnDataProvidedExceptCapacity(): void
     {
-        $stack = new Stack(["test"]);
+        $stack = new Stack(1, ["test"]);
         $this->assertEquals(0, $stack->available());
     }
 
@@ -239,7 +239,7 @@ class StackTest extends TestCase
      */
     public function testAvailableOnDataAndCapacityProvided(): void
     {
-        $stack = new Stack([], 1);
+        $stack = new Stack(1);
         $this->assertEquals(1, $stack->available());
 
         $stack->push("test");
