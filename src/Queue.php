@@ -2,6 +2,7 @@
 
 namespace Sitnikovik\FlexArray;
 
+use InvalidArgumentException;
 use OverflowException;
 use UnderflowException;
 
@@ -37,6 +38,14 @@ class Queue
      */
     public function __construct(int $capacity, array $items = [])
     {
+        if ($capacity < 1) {
+            throw new InvalidArgumentException('Capacity must be greater than 0');
+        }
+        $size = count($items);
+        if (!empty($items) && $size > $capacity) {
+            throw new OverflowException('Items size is bigger than queue capacity');
+        }
+
         $this->size = count($items);
         $this->capacity = $capacity;
         $this->items = $items;
