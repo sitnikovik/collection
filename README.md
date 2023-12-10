@@ -3,10 +3,6 @@ Make your array usage quite easy and fast.
 
 ---
 
-### See also
-
-- [Stack](readme/stack.md)
-
 # FlexArray. Get started.
 You have to provide you array to constructor and after that you can do a lot of operations on haystack via class methods.
 
@@ -41,6 +37,11 @@ $array = new FlexArray($array);
 
 ## Getters
 * [get](#get)
+* [getInteger](#getInteger)
+* [getFloat](#getFloat)
+* [getString](#getString)
+* [getBoolean](#getBoolean)
+* [getAny](#getAny)
 * [getAll](#getAll)
 * [getKeys](#getkeys)
 * [getAllBut](#getallbut)
@@ -118,9 +119,39 @@ $array = new FlexArray($array);
 
 ### get
 ```php
-get(int|string $key, mixed $default = null): mixed
+get(int|string $key, mixed $default = null): mixed|null
 ```
 Returns value from haystack by `$key` or `$default` (*null* on default) on not set.
+
+### getInteger
+```php
+getInteger(int|string $key, mixed $default = null): ?int
+```
+Returns value from haystack by `$key` cast to integer or `$default` (*null* on default) on not set.
+
+### getFloat
+```php
+getFloat(int|string $key, mixed $default = null): ?float
+```
+Returns value from haystack by `$key` cast to float or `$default` (*null* on default) on not set.
+
+### getString
+```php
+getString(int|string $key, mixed $default = null): ?string
+```
+Returns value from haystack by `$key` cast to string or `$default` (*null* on default) on not set.
+
+### getBoolean
+```php
+getBoolean(int|string $key, mixed $default = null): ?bool
+```
+Returns value from haystack by `$key` cast to boolean or `$default` (*null* on default) on not set.
+
+### getAny
+```php
+getAny(int|string ...$keys): mixed|null
+```
+Returns value first found by `$keys` or `null` on not found.
 
 ### getAll
 ```php
