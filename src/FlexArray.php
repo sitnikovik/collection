@@ -36,6 +36,89 @@ class FlexArray
     }
 
     /**
+     * Returns value by `$key` cast to integer.
+     *
+     * If value not exists the `$default` returns.
+     *
+     * @param $key
+     * @param $default
+     * @return int|null
+     */
+    public function getInteger($key, $default = null): ?int
+    {
+        $value = $this->get($key);
+
+        return $value !== null ? (int)$value : $default;
+    }
+
+    /**
+     * Returns value by `$key` cast to float.
+     *
+     * If value not exists the `$default` returns.
+     *
+     * @param $key
+     * @param $default
+     * @return float|null
+     */
+    public function getFloat($key, $default = null): ?float
+    {
+        $value = $this->get($key);
+
+        return $value !== null ? (float)$value : $default;
+    }
+
+    /**
+     * Returns value by `$key` cast to string.
+     *
+     * If value not exists the `$default` returns.
+     *
+     * @param $key
+     * @param $default
+     * @return string|null
+     */
+    public function getString($key, $default = null): ?string
+    {
+        $value = $this->get($key);
+
+        return $value !== null ? (string)$value : $default;
+    }
+
+    /**
+     * Returns value by `$key` cast to boolean.
+     *
+     * If value not exists the `$default` returns.
+     *
+     * @param $key
+     * @param $default
+     * @return bool|null
+     */
+    public function getBoolean($key, $default = null): ?bool
+    {
+        $value = $this->get($key);
+
+        return $value !== null ? (bool)$value : $default;
+    }
+
+    /**
+     * Returns value first found by `$keys`.
+     *
+     * Returns `null` on not found.
+     *
+     * @param int|string ...$keys
+     * @return mixed|null
+     */
+    public function getAny(...$keys)
+    {
+        foreach ($keys as $key) {
+            if ($this->keyExists($key)) {
+                return $this->get($key);
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Returns the haystack.
      *
      * @return array
