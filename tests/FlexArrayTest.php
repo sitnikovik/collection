@@ -962,4 +962,111 @@ class FlexArrayTest extends TestCase
             $this->flexArray->indexOf(['apple', 'orange'])
         );
     }
+
+    /**
+     * @return void
+     */
+    public function testGetAny(): void
+    {
+        $haystack = [
+            "one" => "one",
+            "two" => "two",
+            "three" => "three",
+        ];
+        $flex = new FlexArray($haystack);
+
+        $this->assertNotNull($flex->getAny("One", "onE", "one"));
+        $this->assertEquals($haystack["two"], $flex->getAny("two", "three", "one"));
+        $this->assertEquals($haystack["three"], $flex->getAny("threE", "Two", "three", "one"));
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetInteger(): void
+    {
+        $haystack = [
+            "0",
+            "2",
+            "1asd",
+            "asd1",
+            null,
+        ];
+        $flex = new FlexArray($haystack);
+
+        $this->assertEquals(0, $flex->getInteger(0));
+        $this->assertEquals(2, $flex->getInteger(1));
+        $this->assertEquals(1, $flex->getInteger(2));
+        $this->assertEquals(0, $flex->getInteger(3));
+        $this->assertNull($flex->getInteger(5));
+        $this->assertEquals(123, $flex->getFloat(5, 123));
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetFloat(): void
+    {
+        $haystack = [
+            "0",
+            "2",
+            "1asd",
+            "asd1",
+            "2.1",
+            null,
+        ];
+        $flex = new FlexArray($haystack);
+
+        $this->assertEquals(0.0, $flex->getFloat(0));
+        $this->assertEquals(2.0, $flex->getFloat(1));
+        $this->assertEquals(1.0, $flex->getFloat(2));
+        $this->assertEquals(0.0, $flex->getFloat(3));
+        $this->assertEquals(2.1, $flex->getFloat(4));
+        $this->assertNull($flex->getFloat(5));
+        $this->assertEquals(123.0, $flex->getFloat(5, 123.0));
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetString(): void
+    {
+        $haystack = [
+            0,
+            "1",
+            null,
+            true,
+            false,
+        ];
+        $flex = new FlexArray($haystack);
+
+        $this->assertEquals("0", $flex->getString(0));
+        $this->assertEquals("1", $flex->getString(1));
+        $this->assertNull($flex->getString(2));
+        $this->assertEquals("nullFound", $flex->getString(2, "nullFound"));
+        $this->assertEquals("1", $flex->getString(3));
+        $this->assertEquals("", $flex->getString(4));
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetBoolean(): void
+    {
+        $haystack = [
+            0,
+            "1",
+            null,
+            true,
+            false,
+        ];
+        $flex = new FlexArray($haystack);
+
+        $this->assertFalse($flex->getBoolean(0));
+        $this->assertTrue($flex->getBoolean(1));
+        $this->assertNull($flex->getBoolean(2));
+        $this->assertFalse($flex->getBoolean(2, false));
+        $this->assertTrue($flex->getBoolean(3));
+        $this->assertFalse($flex->getBoolean(4));
+    }
 }
