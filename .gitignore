@@ -4,3 +4,5 @@
 /VERSION
 /.obsidian/
 /readme/.obsidian/
+composer.phar
+composer.lock
