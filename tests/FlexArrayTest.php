@@ -1069,4 +1069,70 @@ class FlexArrayTest extends TestCase
         $this->assertTrue($flex->getBoolean(3));
         $this->assertFalse($flex->getBoolean(4));
     }
+
+    /**
+     * @return void
+     */
+    public function testHasAnyEmpty(): void
+    {
+        $flex = new FlexArray([
+            'name' => 'John Doe',
+            'cars' => [],
+            'isActive' => false,
+        ]);
+
+        $this->assertTrue($flex->hasAnyEmpty('name', 'cars'));
+        $this->assertTrue($flex->hasAnyEmpty('name', 'isActive'));
+        $this->assertTrue($flex->hasAnyEmpty('cars', 'isActive'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testHasEmpty(): void
+    {
+        $flex = new FlexArray([
+            'name' => 'John Doe',
+            'cars' => [],
+            'isActive' => false,
+        ]);
+
+        $this->assertFalse($flex->hasEmpty('name', 'cars'));
+        $this->assertFalse($flex->hasEmpty('name', 'isActive'));
+        $this->assertTrue($flex->hasEmpty('cars', 'isActive'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testHasAnyNotEmpty(): void
+    {
+        $flex = new FlexArray([
+            'name' => 'John Doe',
+            'status' => 'ok',
+            'cars' => [],
+            'isActive' => false,
+        ]);
+
+        $this->assertTrue($flex->hasAnyNotEmpty('name', 'status'));
+        $this->assertTrue($flex->hasAnyNotEmpty('name', 'isActive'));
+        $this->assertFalse($flex->hasAnyNotEmpty('cars', 'isActive'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testHasNotEmpty(): void
+    {
+        $flex = new FlexArray([
+            'name' => 'John Doe',
+            'status' => 'ok',
+            'cars' => [],
+            'isActive' => false,
+        ]);
+
+        $this->assertTrue($flex->hasNotEmpty('name', 'status'));
+        $this->assertFalse($flex->hasNotEmpty('name', 'isActive'));
+        $this->assertFalse($flex->hasNotEmpty('cars', 'isActive'));
+    }
 }
