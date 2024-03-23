@@ -995,6 +995,74 @@ class FlexArray
     }
 
     /**
+     * Defines if all values in the haystack are empty.
+     *
+     * @param string ...$keys
+     * @return bool
+     */
+    public function hasAnyEmpty(string ...$keys): bool
+    {
+        foreach ($keys as $key) {
+            if ($this->isEmpty($key)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Defines if any provided key is not empty.
+     *
+     * @param string ...$keys
+     * @return bool
+     */
+    public function hasAnyNotEmpty(string ...$keys): bool
+    {
+        foreach ($keys as $key) {
+            if (!$this->isEmpty($key)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Defines if all provided keys are empty.
+     *
+     * @param string ...$keys
+     * @return bool
+     */
+    public function hasEmpty(string ...$keys): bool
+    {
+        foreach ($keys as $key) {
+            if (!$this->isEmpty($key)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Defines if all provided keys are not empty.
+     *
+     * @param string ...$keys
+     * @return bool
+     */
+    public function hasNotEmpty(string ...$keys): bool
+    {
+        foreach ($keys as $key) {
+            if ($this->isEmpty($key)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Defines if the given key or index exists in the haystack even nullable.
      *
      * @param int|string $key
