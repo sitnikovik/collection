@@ -2,8 +2,8 @@
 
 namespace Sitnikovik\Test;
 
-use Sitnikovik\FlexArray\Map;
 use PHPUnit\Framework\TestCase;
+use Sitnikovik\FlexArray\Map;
 
 /**
  * Class MapTest
