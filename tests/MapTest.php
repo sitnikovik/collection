@@ -3,7 +3,7 @@
 namespace Sitnikovik\Test;
 
 use PHPUnit\Framework\TestCase;
-use Sitnikovik\FlexArray\Map;
+use Sitnikovik\FlexArray\MixedMap;
 
 /**
  * Class MapTest
@@ -14,11 +14,11 @@ class MapTest extends TestCase
      * Tests count method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::count
+     * @covers \Sitnikovik\FlexArray\MixedMap::count
      */
     public function testCount(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
         $this->assertEquals(0, $map->count());
 
         $map->set('key', 'value');
@@ -32,11 +32,11 @@ class MapTest extends TestCase
      * Tests isNotEmpty method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::isNotEmpty
+     * @covers \Sitnikovik\FlexArray\MixedMap::isNotEmpty
      */
     public function testIsNotEmpty(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
         $this->assertFalse($map->isNotEmpty());
 
         $map->set('key', 'value');
@@ -47,11 +47,11 @@ class MapTest extends TestCase
      * Tests get method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::get
+     * @covers \Sitnikovik\FlexArray\MixedMap::get
      */
     public function testGet(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
 
         $map->set('key', 'value');
         $this->assertEquals('value', $map->get('key'));
@@ -64,11 +64,11 @@ class MapTest extends TestCase
      * Tests has method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::has
+     * @covers \Sitnikovik\FlexArray\MixedMap::has
      */
     public function testHas(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
 
         $map->set('key', 'value');
         $this->assertTrue($map->has('key'));
@@ -81,11 +81,11 @@ class MapTest extends TestCase
      * Tests clear method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::clear
+     * @covers \Sitnikovik\FlexArray\MixedMap::clear
      */
     public function testClear(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
 
         $map->set('key', 'value');
         $map->set('key2', 'value2');
@@ -98,11 +98,11 @@ class MapTest extends TestCase
      * Tests remove method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::remove
+     * @covers \Sitnikovik\FlexArray\MixedMap::remove
      */
     public function testRemove(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
 
         $map->set('key', 'value');
         $map->remove('key');
@@ -114,11 +114,11 @@ class MapTest extends TestCase
      * Tests isEmpty method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::isEmpty
+     * @covers \Sitnikovik\FlexArray\MixedMap::isEmpty
      */
     public function testIsEmpty(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
 
         $this->assertTrue($map->isEmpty());
 
@@ -130,11 +130,11 @@ class MapTest extends TestCase
      * Tests values method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::values
+     * @covers \Sitnikovik\FlexArray\MixedMap::values
      */
     public function testValues(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
 
         $map->set('key', 'value');
         $map->set('key2', 'value2');
@@ -146,11 +146,11 @@ class MapTest extends TestCase
      * Tests set method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::set
+     * @covers \Sitnikovik\FlexArray\MixedMap::set
      */
     public function testSet(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
 
         $map->set('key', 'value');
         $this->assertEquals('value', $map->get('key'));
@@ -160,11 +160,11 @@ class MapTest extends TestCase
      * Tests keys method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::keys
+     * @covers \Sitnikovik\FlexArray\MixedMap::keys
      */
     public function testKeys(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
 
         $map->set('key', 'value');
         $map->set('key2', 'value2');
@@ -176,15 +176,15 @@ class MapTest extends TestCase
      * Tests all method
      *
      * @return void
-     * @covers \Sitnikovik\FlexArray\Map::all
+     * @covers \Sitnikovik\FlexArray\MixedMap::pairs
      */
-    public function testAll(): void
+    public function testPairs(): void
     {
-        $map = new Map();
+        $map = new MixedMap();
 
         $map->set('key', 'value');
         $map->set('key2', 'value2');
 
-        $this->assertEquals(['key' => 'value', 'key2' => 'value2'], $map->all());
+        $this->assertEquals(['key' => 'value', 'key2' => 'value2'], $map->pairs());
     }
 }
