@@ -36,7 +36,7 @@ abstract class AbstractMap
     /**
      * Returns all keys
      *
-     * @return array
+     * @return string[]
      */
     public function keys(): array
     {
@@ -44,7 +44,7 @@ abstract class AbstractMap
     }
 
     /**
-     * Returns all values
+     * Returns all values as array
      *
      * @return array
      */
@@ -54,7 +54,7 @@ abstract class AbstractMap
     }
 
     /**
-     * Returns count of storage
+     * Returns count of stored pairs
      *
      * @return int
      */
@@ -64,9 +64,10 @@ abstract class AbstractMap
     }
 
     /**
-     * Returns all data
+     * Returns all pairs as associative array
      *
      * @return array
+     * @deprecated Use pairs() instead
      */
     public function all(): array
     {
@@ -74,7 +75,17 @@ abstract class AbstractMap
     }
 
     /**
-     * Clear all data
+     * Returns all pairs as associative array
+     *
+     * @return array
+     */
+    public function pairs(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Clears all stored pairs
      *
      * @return void
      */
@@ -84,7 +95,7 @@ abstract class AbstractMap
     }
 
     /**
-     * Check if storage is empty
+     * Check if map is empty
      *
      * @return bool
      */
@@ -94,9 +105,10 @@ abstract class AbstractMap
     }
 
     /**
-     * Check if storage is not empty
+     * Check if map is not empty
      *
      * @return bool
+     * @deprecated Use isEmpty() instead
      */
     public function isNotEmpty(): bool
     {
