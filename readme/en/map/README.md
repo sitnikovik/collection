@@ -29,49 +29,49 @@ set(string $key, mixed $value): void
 ```
 Sets value by `$key`.
 
-### Remove value
+### remove
 ```php
 remove(string $key): void
 ```
 Removes value by `$key` on found. No throws exception on not found.
 
-### Check value
+### has
 ```php
 has(string $key): bool
 ```
 Check if key exists by `$key` but not nullable.
 
-### Get all keys
+### keys
 ```php
 keys(): array
 ```
 Returns all keys
 
-### Get all values
+### values
 ```php
 values(): array
 ```
 Returns all values without keys
 
-### Get all pairs
+### pairs
 ```php
 pairs(): array
 ```
 Returns all pairs as associative array
 
-### Count
+### count
 ```php
 count(): int
 ```
 Returns count of stored pairs
 
-### Clear
+### clear
 ```php
 clear(): void
 ```
 Clears all stored pairs
 
-### Is empty
+### isEmpty
 ```php
 isEmpty(): bool
 ```
