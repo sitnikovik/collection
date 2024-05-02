@@ -417,6 +417,35 @@ class MixedListTest extends TestCase
     }
 
     /**
+     * Tests if the isEmpty method returns true if the array is empty
+     *
+     * @return void
+     * @covers ::isEmpty
+     */
+    public function testIsEmptyReturnsTrue(): void
+    {
+        $mixedList = new MixedList();
+
+        $this->assertTrue($mixedList->isEmpty());
+    }
+
+    /**
+     * Tests if the isEmpty method returns false if the array is not empty
+     *
+     * @return void
+     * @covers ::isEmpty
+     */
+    public function testIsEmptyReturnsFalse(): void
+    {
+        $mixedList = new MixedList([
+            "string_0",
+            "string_1",
+        ]);
+
+        $this->assertFalse($mixedList->isEmpty());
+    }
+
+    /**
      * Tests if the left method returns the capacity left
      *
      * @return void

@@ -399,6 +399,35 @@ class StringListTest extends TestCase
     }
 
     /**
+     * Tests if the isEmpty method returns true if the array is empty
+     *
+     * @return void
+     * @covers ::isEmpty
+     */
+    public function testIsEmptyReturnsTrue(): void
+    {
+        $stringList = new StringList();
+
+        $this->assertTrue($stringList->isEmpty());
+    }
+
+    /**
+     * Tests if the isEmpty method returns false if the array is not empty
+     *
+     * @return void
+     * @covers ::isEmpty
+     */
+    public function testIsEmptyReturnsFalse(): void
+    {
+        $stringList = new StringList([
+            "string_0",
+            "string_1",
+        ]);
+
+        $this->assertFalse($stringList->isEmpty());
+    }
+
+    /**
      * Tests if the left method returns the capacity left
      *
      * @return void
