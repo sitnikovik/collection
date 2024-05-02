@@ -372,6 +372,33 @@ class FloatListTest extends TestCase
         $this->assertFalse($floatList->isFull());
     }
 
+
+    /**
+     * Tests if the isEmpty method returns true if the array is empty
+     *
+     * @return void
+     * @covers ::isEmpty
+     */
+    public function testIsEmptyReturnsTrue(): void
+    {
+        $floatList = new FloatList();
+
+        $this->assertTrue($floatList->isEmpty());
+    }
+
+    /**
+     * Tests if the isEmpty method returns false if the array is not empty
+     *
+     * @return void
+     * @covers ::isEmpty
+     */
+    public function testIsEmptyReturnsFalse(): void
+    {
+        $floatList = new FloatList([1.9, 2.5]);
+
+        $this->assertFalse($floatList->isEmpty());
+    }
+
     /**
      * Tests if the left method returns the capacity left
      *

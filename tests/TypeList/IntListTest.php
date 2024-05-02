@@ -339,6 +339,32 @@ class IntListTest extends TestCase
     }
 
     /**
+     * Tests if the isEmpty method returns true if the array is empty
+     *
+     * @return void
+     * @covers ::isEmpty
+     */
+    public function testIsEmptyReturnsTrue(): void
+    {
+        $intList = new IntList();
+
+        $this->assertTrue($intList->isEmpty());
+    }
+
+    /**
+     * Tests if the isEmpty method returns false if the array is not empty
+     *
+     * @return void
+     * @covers ::isEmpty
+     */
+    public function testIsEmptyReturnsFalse(): void
+    {
+        $intList = new IntList([1, 2]);
+
+        $this->assertFalse($intList->isEmpty());
+    }
+
+    /**
      * Tests if the left method returns the capacity left
      *
      * @return void
