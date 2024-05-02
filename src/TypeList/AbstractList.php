@@ -163,6 +163,7 @@ abstract class AbstractList
 
     /**
      * Filters the array using the given callback.
+     * If the callback is null, removes all empty values from the array.
      *
      * @param callable|null $callback
      * @return $this
@@ -305,13 +306,23 @@ abstract class AbstractList
     }
 
     /**
-     * Define if the array is full of data
+     * Checks if array is full of data
      *
      * @return bool
      */
     final public function isFull(): bool
     {
         return $this->isCapacityStrict && $this->left() === 0;
+    }
+
+    /**
+     * Checks if array is empty
+     *
+     * @return bool
+     */
+    final public function isEmpty(): bool
+    {
+        return $this->length === 0;
     }
 
     /**
@@ -347,7 +358,7 @@ abstract class AbstractList
     }
 
     /**
-     * Get the array
+     * Get capacity of the array
      *
      * @return int
      */
