@@ -6,9 +6,8 @@ use Sitnikovik\FlexArray\Map\AbstractMap;
 
 /**
  * Map realization that stores mixed values
- * @deprecated Use MixedMap class instead
  */
-class Map extends AbstractMap
+class MixedMap extends AbstractMap
 {
     /**
      * Get value by key
