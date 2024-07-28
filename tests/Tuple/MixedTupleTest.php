@@ -12,10 +12,26 @@ use Sitnikovik\FlexArray\Tuple\MixedTuple;
  */
 class MixedTupleTest extends TestCase
 {
+        /**
+     * Tests the constructor not throws an exception on invalid data
+     * 
+     * @return void
+     * @covers  Sitnikovik\FlexArray\Tuple\IntTuple::__construct
+     */
+    public function testConstuctNotThrowsException()
+    {
+        new MixedTuple(["1", 2, 3]);
+        
+        $this->assertTrue(true);
+    }
+
     /**
      * Tests the get method
+     * 
+     * @return void
+     * @covers Sitnikovik\FlexArray\Tuple\MixedTuple::get
      */
-    public function testGet()
+    public function testGet(): void
     {
         $data = ['apple', 123, true];
         $tuple = new MixedTuple($data);
@@ -28,8 +44,11 @@ class MixedTupleTest extends TestCase
 
     /**
      * Tests the all method that returns all values
+     * 
+     * @return void
+     * @covers Sitnikovik\FlexArray\Tuple\MixedTuple::all
      */
-    public function testAll()
+    public function testAll(): void
     {
         $data = ['apple', 123, true];
         $tuple = new MixedTuple($data);
