@@ -47,7 +47,7 @@ abstract class AbstractTuple
      * @param int $index
      * @return mixed|null
      */
-    protected function getByIndex(int $index): ?mixed
+    protected function getByIndex(int $index): mixed
     {
         return $this->data[$index] ?? null;
     }

@@ -23,7 +23,7 @@ class MixedTuple extends AbstractTuple
      * @param int $index
      * @return mixed|null
      */
-    public function get(int $index): ?mixed
+    public function get(int $index): mixed
     {
         return $this->getByIndex($index);
     }
