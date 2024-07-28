@@ -18,7 +18,7 @@ class IntTupleTest extends TestCase
      * @return void
      * @covers  Sitnikovik\FlexArray\Tuple\IntTuple::__construct
      */
-    public function testConstuctThrowsExceptionOnInvalidData()
+    public function testConstuctThrowsExceptionOnInvalidData(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid value at index 0');
@@ -28,8 +28,11 @@ class IntTupleTest extends TestCase
 
     /**
      * Tests the get method
+     * 
+     * @return void
+     * @covers Sitnikovik\FlexArray\Tuple\IntTuple::get
      */
-    public function testGetReturnsExpected()
+    public function testGetReturnsExpected(): void
     {
         $data = [1, 2, 3];
         $tuple = new IntTuple($data);
@@ -42,8 +45,11 @@ class IntTupleTest extends TestCase
 
     /**
      * Tests the all method that returns all values
+     * 
+     * @return void
+     * @covers Sitnikovik\FlexArray\Tuple\IntTuple::all
      */
-    public function testAllReturnsExpected()
+    public function testAllReturnsExpected(): void
     {
         $data = [1, 2, 3];
         $tuple = new IntTuple($data);
