@@ -36,7 +36,7 @@ class IntList extends AbstractList
      * If the array is full, throws an exception.
      *
      * @param int $value
-     * @return void
+     * @return $this
      */
     public function append(int $value): self
     {

@@ -79,7 +79,7 @@ abstract class AbstractList
      * If the array is full, throws an exception.
      *
      * @param mixed $value
-     * @return void
+     * @return $this
      */
     final protected function appendValue($value): self
     {

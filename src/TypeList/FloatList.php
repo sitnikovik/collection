@@ -34,7 +34,7 @@ class FloatList extends AbstractList
      * If the array is full, throws an exception.
      *
      * @param float $value
-     * @return void
+     * @return $this
      */
     public function append(float $value): self
     {
