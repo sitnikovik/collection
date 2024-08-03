@@ -1,5 +1,5 @@
 # FlexArray
-å
+
 Make your array usage quite easy and fast.
 
 ## Read docs
