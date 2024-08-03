@@ -56,4 +56,18 @@ class FloatTupleTest extends TestCase
 
         $this->assertEquals($data, $tuple->all());
     }
+
+    /**
+     * Tests the count method
+     * 
+     * @return void
+     * @covers Sitnikovik\FlexArray\Tuple\FloatTuple::count
+     */
+    public function testCount(): void
+    {
+        $data = [1.0, 2.4, 4.6];
+        $tuple = new FloatTuple($data);
+
+        $this->assertEquals(count($data), $tuple->count());
+    }
 }

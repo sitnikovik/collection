@@ -56,4 +56,18 @@ class StringTupleTest extends TestCase
 
         $this->assertEquals($data, $tuple->all());
     }
+
+    /**
+     * Tests the count method
+     * 
+     * @return void
+     * @covers Sitnikovik\FlexArray\Tuple\StringTuple::count
+     */
+    public function testCount(): void
+    {
+        $data = ['foo', 'bar'];
+        $tuple = new StringTuple($data);
+
+        $this->assertEquals(count($data), $tuple->count());
+    }
 }

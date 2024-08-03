@@ -31,7 +31,7 @@ class MixedTupleTest extends TestCase
      * @return void
      * @covers Sitnikovik\FlexArray\Tuple\MixedTuple::get
      */
-    public function testGet(): void
+    public function testGetReturnsExpected(): void
     {
         $data = ['apple', 123, true];
         $tuple = new MixedTuple($data);
@@ -48,11 +48,25 @@ class MixedTupleTest extends TestCase
      * @return void
      * @covers Sitnikovik\FlexArray\Tuple\MixedTuple::all
      */
-    public function testAll(): void
+    public function testAllReturnsExpected(): void
     {
         $data = ['apple', 123, true];
         $tuple = new MixedTuple($data);
 
         $this->assertEquals($data, $tuple->all());
+    }
+
+    /**
+     * Tests the count method
+     * 
+     * @return void
+     * @covers Sitnikovik\FlexArray\Tuple\MixedTuple::count
+     */
+    public function testCount(): void
+    {
+        $data = ['apple', 123, true];
+        $tuple = new MixedTuple($data);
+
+        $this->assertEquals(count($data), $tuple->count());
     }
 }
