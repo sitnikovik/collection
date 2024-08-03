@@ -61,4 +61,14 @@ abstract class AbstractTuple
     {
         return $this->data;
     }
+
+    /**
+     * Returns the number of elements
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        return count($this->data);
+    }
 }

@@ -56,4 +56,18 @@ class IntTupleTest extends TestCase
 
         $this->assertEquals($data, $tuple->all());
     }
+
+    /**
+     * Tests the count method
+     * 
+     * @return void
+     * @covers Sitnikovik\FlexArray\Tuple\IntTuple::count
+     */
+    public function testCount(): void
+    {
+        $data = [1, 2, 3];
+        $tuple = new IntTuple($data);
+
+        $this->assertEquals(count($data), $tuple->count());
+    }
 }
